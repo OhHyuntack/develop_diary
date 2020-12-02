@@ -1,0 +1,44 @@
+function mergeRowspanTest(tableName, colNo){
+		
+		/* mergeRowspanTest(tableID, 0 또는 1)*/
+		
+		if(colNo != 0 && colNo != 1){
+			return false;
+		}
+		
+		var table = $('#'+tableName);
+		var mergeCnt = 0;
+		var mergeItem = "";
+		var thRowCnt = Number($('#'+tableName+' thead tr').length);
+		
+		
+		$('tr', table).each(function(row) { 
+			
+			if(row > thRowCnt-1){
+			
+				var item = $(this).find('td').eq(colNo).text();
+				
+				if(mergeItem != item){
+					
+					mergeItem = item;
+					mergeCnt = 1;
+					mergeRowNum = Number(row);
+					
+				}else{
+					mergeCnt = Number(mergeCnt)+1;
+					
+					table.find("tr")[mergeRowNum].children[colNo].setAttribute("rowspan", mergeCnt);
+					
+					if(colNo == 0){
+						
+						$('td:first-child', $(this)).hide();
+						
+					}else if(colNo == 1){
+						
+						$('td:nth-child(2)', $(this)).hide();
+					
+					}
+				}
+			}
+		});
+	}
