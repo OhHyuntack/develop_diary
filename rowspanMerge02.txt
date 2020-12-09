@@ -1,0 +1,66 @@
+function mergeRowspanTest(tableName, colNo){
+		
+		var table = $('#'+tableName);
+		var overCnt = 1;
+		var temp = [];
+		var thRowCnt = Number($('#'+tableName+' thead tr').length);
+		var tdRowCnt = Number($('#'+tableName+' tbody tr').length);
+		var endRow = 0;
+		
+		$('tr', table).each(function(row) { 
+			
+			var col = $(this).find('td').eq(colNo).text();
+			
+			temp[row] = col;
+			
+			if(temp[row-1] == col){
+				
+				overCnt++;
+				
+			}else{
+			
+				if(row >= thRowCnt+1){
+					
+					var trRow = row-overCnt;
+					
+					if(overCnt >= 2){
+						
+						table.find("tr")[trRow].children[colNo].setAttribute("rowspan", overCnt);
+						
+						endRow = endRow+overCnt;
+						
+							for(var i = 1; i < overCnt; i++){
+								
+								table.find("tr")[row-i].children[colNo].remove();
+								
+							}
+					}
+					
+					overCnt = 1;
+				}
+				
+				overCnt = 1;
+			}
+			
+			if(overCnt >= 2){
+				
+				if(row == tdRowCnt + (thRowCnt-1)){
+					
+					var dNo = row - thRowCnt + 1;
+					
+					var targetRowspan = dNo - endRow;
+					
+					var targetRow = row - targetRowspan + 1;
+					
+					$('#'+tableName).find("tr")[targetRow].children[colNo].setAttribute("rowspan", targetRowspan);
+					
+					for(var i = 1; i < targetRowspan; i++){
+						
+						$('#'+tableName).find("tr")[row+1-i].children[colNo].remove();
+						
+					}
+				}
+			}
+			
+		});
+	}
