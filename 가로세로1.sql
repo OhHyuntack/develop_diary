@@ -71,21 +71,21 @@ FROM
 		            SELECT CASE WHEN COUNT(1) > 0 THEN 'Y' ELSE 'N' END
 		            FROM (
 		               SELECT sch_year, edc_sn, univ_cd, ctfhv_issu_no
-		               FROM trn_univ_edact_ldr where ctfhv_issu_no is not null 
-		               UNION ALL
+		               FROM trn_univ_edact_ldr where ctfhv_issu_no is not null  --[발급번호가 부여된 항목만 (지도자)]
+		               UNION ALL												--[지도자, 학생 테이블 유니온 합친 데이터]
 		               SELECT sch_year, edc_sn, univ_cd, ctfhv_issu_no
-		               FROM trn_univ_edact_stdat                                [지도자, 학생 테이블 유니온 합친 데이터]
-		               WHERE sch_year = a.sch_year  [년도 조인]
-		               AND edc_sn = a.edc_sn     [강좌 조인]
-		               AND univ_cd = b.univ_cd  [학교 조인]
-		               AND ctfhv_issu_no is not null   [발급번호 부여된항목만]
+		               FROM trn_univ_edact_stdat                                
+		               WHERE sch_year = a.sch_year  --[년도 조인]
+		               AND edc_sn = a.edc_sn     --[강좌 조인]
+		               AND univ_cd = b.univ_cd  --[학교 조인]
+		               AND ctfhv_issu_no is not null   --[발급번호 부여된항목만(학생)]
 		            ) a
 	
-   FROM trn_edc_schdul_mng a  [기준 테이블을 어떤걸 잡을것인가 ?(강좌테이블)]
-		         INNER JOIN com_univ univ        [(학교많음)]
-		         ON a.sch_year = univ.sch_year    [(모든학교 년도만 조인함)]
+   FROM trn_edc_schdul_mng a  /*[기준 테이블을 어떤걸 잡을것인가 ?(강좌테이블)]*/
+		         INNER JOIN com_univ univ        /*[(학교많음)]*/
+		         ON a.sch_year = univ.sch_year    /*[(모든학교 년도만 조인함)]*/
 				 --------------------- 기준 ------------------------
-		         LEFT OUTER JOIN trn_univ_edact b  [(해당 테이블 조인)]
+		         LEFT OUTER JOIN trn_univ_edact b  /*[(해당 테이블 조인)]*/
 		            ON a.sch_year = b.sch_year 
 		            AND a.edc_sn = b.edc_sn 
 		            AND b.sch_year = univ.sch_year
