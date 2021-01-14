@@ -1,0 +1,22 @@
+
+htmlStr += "<a onclick='gfn_movePagePost(\'"+ url +"\');'>"+ data.mnu_nm +"</a>"; << 이거 에러 
+
+===================================아래 에러 수정================================================
+ 
+list.forEach(function(data){
+						
+	var url = data.conect_url;
+						
+	console.log('url1 :: ',url);						
+	url = url.replaceAll('/', '\/');
+	console.log('url2 :: ',url);
+	htmlStr += '<a onclick="gfn_movePagePost(\''+ url +'\');">'+ data.mnu_nm +'</a>';
+						
+	console.log(htmlStr);
+						
+});
+  ================================================================================================
+
+  원인 : 문자열로 들어가게 아니라 속성으로 들어가서 다 없어진것 같음
+  해결 : onclick에 들어가는 따옴표랑 gfn_movePagePost에들어가는 따옴표를 다른게 해주면 됨
+   

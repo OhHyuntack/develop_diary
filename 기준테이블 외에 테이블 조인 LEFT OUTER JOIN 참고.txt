@@ -1,0 +1,79 @@
+ 	SELECT  a.sch_year AS com_sch_year,
+		         a.edc_sn,
+		         univ.univ_cd AS com_univ_cd,
+		         univ.univ_nm,  
+		         (SELECT cd_nm FROM com_cmmn_cd WHERE cd = a.onofl_se_cd AND cd_grp = 'USIS81') AS onofl_se_cd_nm,
+		         a.atnlc_usr_se_cd,
+		         (SELECT cd_nm FROM com_cmmn_cd WHERE cd = a.atnlc_usr_se_cd AND cd_grp = 'USIS82') AS atnlc_usr_se_cd_nm,
+		         a.edc_se_cd,
+		         (SELECT cd_nm FROM com_cmmn_cd WHERE cd = a.edc_se_cd AND cd_grp = 'USIS83') AS edc_se_cd_nm,
+		         (
+		            SELECT GROUP_CONCAT(cpcs_cd)
+		            FROM trn_edc_schdul_cpcs_mng
+		            WHERE sch_year = a.sch_year
+		            AND edc_sn = a.edc_sn
+		         ) AS cpcs_values,
+		         (
+		            SELECT GROUP_CONCAT((SELECT cd_nm FROM com_cmmn_cd WHERE cd = cpcs_cd AND cd_grp = 'USIS52'))
+		            FROM trn_edc_schdul_cpcs_mng
+		            WHERE sch_year = a.sch_year
+		            AND edc_sn = a.edc_sn
+		         ) AS cpcs_labels,
+		         a.place,
+		         a.stayng_se_cd,
+		         a.edc_dt,
+		         a.rcept_req_dt,
+		         a.rcept_end_dt,
+		         
+		         b.writng_sttus_cd,
+		         CASE WHEN SYSTIMESTAMP BETWEEN a.rcept_req_dt AND a.rcept_end_dt THEN
+		             CASE WHEN b.writng_sttus_cd IS NULL THEN '신청가능'
+		                 WHEN b.writng_sttus_cd = '20'     THEN '신청중'
+		                 WHEN b.writng_sttus_cd = '30'    THEN '신청완료'
+		             END
+		             ELSE '신청종료' 
+		         END AS writng_sttus_cd_nm,
+		         CASE WHEN SYSTIMESTAMP BETWEEN a.rcept_req_dt AND a.rcept_end_dt THEN
+		             CASE WHEN b.writng_sttus_cd IS NULL    THEN '신청하기'
+		                 WHEN b.writng_sttus_cd = '20'     THEN '수정하기'
+		                 WHEN b.writng_sttus_cd = '30'     THEN '수정하기'
+		             END       
+		         END AS writng_sttus_btn,
+		         CASE WHEN a.atnlc_usr_se_cd = '1' AND b.writng_sttus_cd = '30' THEN '작성' END AS trn_edc_rstrpt_btn,
+		         (
+		            /* 해당 교육의 수강자들이 모두 수료증발급번호가 지정되어있을때 발급가능(Y) */
+		            SELECT CASE WHEN COUNT(1) > 0 THEN 'Y' ELSE 'N' END
+		            FROM (
+		               SELECT sch_year, edc_sn, univ_cd, ctfhv_issu_no
+		               FROM trn_univ_edact_ldr where ctfhv_issu_no is not null 
+		               UNION ALL
+		               SELECT sch_year, edc_sn, univ_cd, ctfhv_issu_no
+		               FROM trn_univ_edact_stdat 
+		               WHERE sch_year = a.sch_year
+		               AND edc_sn = a.edc_sn
+		               AND univ_cd = b.univ_cd
+		               AND ctfhv_issu_no is not null 
+		            ) a
+		         )AS ctfhv_issu_print_at,
+		         CASE WHEN b.writng_sttus_cd = '30' THEN '출력' END AS ctfhv_issu_print_btn
+		   FROM trn_edc_schdul_mng a
+		         INNER JOIN com_univ univ
+		         ON a.sch_year = univ.sch_year
+		         LEFT OUTER JOIN trn_univ_edact b 
+		            ON a.sch_year = b.sch_year 
+		            AND a.edc_sn = b.edc_sn 
+		            AND b.sch_year = univ.sch_year
+		            AND b.univ_cd = univ.univ_cd
+		   WHERE a.sch_year = #{com_sch_year}
+		   <if test='com_sch_reprsnt_cd != "%"'>
+		   		AND univ.sch_reprsnt_cd = #{com_sch_reprsnt_cd}
+		   </if>
+		   <if test='com_univ_cd != "%"'>
+				AND univ.univ_cd = #{com_univ_cd}
+		   </if>
+		   <if test='onofl_se_cd != "%"'>
+				AND a.onofl_se_cd = #{onofl_se_cd}
+			</if>
+			<if test='atnlc_usr_se_cd != "%"'>
+				AND a.atnlc_usr_se_cd = #{atnlc_usr_se_cd}
+			</if>
