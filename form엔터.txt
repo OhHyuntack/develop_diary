@@ -1,0 +1,4 @@
+
+브라우저마다 다를 수가 있지만 form태그 안에 input 태그가 유일할 시 엔터를 치게 되면 기본적으로 submit이 됩니다.
+
+form태그에 onsubmit="return false"를 넣어주게 된다면 엔터키로 submit되는것을 막을 수 있습니다.
