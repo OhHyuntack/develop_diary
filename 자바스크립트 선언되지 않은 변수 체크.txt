@@ -27,3 +27,11 @@ if(typeof(gridShow) != 'undefined'){
     
 typeof(변수명) = 'undefined' 가 들어가야함.
 
+JavaScript에서 null객체입니다. 
+
+존재하지 않는 것에는 또 다른 가치가 있습니다 undefined. 
+
+DOM은 null문서에서 일부 구조를 찾지 못하는 거의 모든 경우에 대해 반환 하지만 JavaScript 자체에서 undefined사용되는 값입니다.
+
+둘째, 아닙니다. 직접적으로 동등한 것은 없습니다. 에 대해 구체적으로 확인하려면 다음을 null수행하십시오.
+

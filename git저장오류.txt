@@ -1,0 +1,23 @@
+제가 실시한 방법을 순서대로 나열하면,
+
+1. Github repository 생성 : Seuleeee/myFirstDataScience
+
+   - Readme.md 생성
+
+2. mkir myFirstDataScience : 프로젝트 폴더 생성
+
+3. helloworld.py 생성
+
+4. git add helloworld.py
+
+5. git pull origin master
+
+6. git push origin master
+
+ 
+
+구글링을 해 본 결과 위 과정에서 1번 하위항목의 Readme.md 생성이 문제였습니다. 제가 mkdir로 생성한 폴더와 Github repository의 형상이 Readme.md로 인해 달랐기 때문에 문제가 발생했던 것이죠. 따라서, 이 문제를 해결하기위해 저는 git push -u origin +master 입력을 통해 문제를 해결했습니다.
+
+
+
+출처: https://backstreet-programmer.tistory.com/112 [글쓰는 개발자]
