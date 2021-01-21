@@ -25,5 +25,5 @@ if(typeof(gridShow) != 'undefined'){
 			
 		}
     
-typeof가 들어가야함.
+typeof(변수명) = 'undefined' 가 들어가야함.
 
