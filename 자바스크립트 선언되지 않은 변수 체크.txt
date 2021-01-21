@@ -1,4 +1,29 @@
-if(typeof gridShow === undefined){
+if(typeof(gridShow) != 'undefined'){
+			
+			for(var i=0; i < gridShow.length; i++){
+				
+				grid.push({grid: gridShow[i].getGridView(), sheetName : gridTitle[i]});
+				
+			}
+			
+			RealGrid.exportGrid({
+		         type: 'excel',
+		         target: "local",
+		         fileName : "${S_MENU_NM}",
+		         exportGrids : grid
+		     });
+			
+			
+		}else if(typeof(gridShow) == 'undefined'){
+			
+			gridObj.getGridView().exportGrid({
+				type: 'excel',
+				target: "local",
+				fileName : "${S_MENU_NM}",
+				lookupDisplay : true
+			});
+			
+		}
 
 typeof가 들어가야함.
 
