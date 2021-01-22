@@ -1,0 +1,12 @@
+254 == '254'                // return true
+true == 1                   // return true
+undefined == null           // return true
+'abc' == new String('abc')  // return true
+null == false               // return false
+'true' == true              // return false
+true == 2                   // return false
+
+254 === '254'               // return false
+true === 1                  // return false
+undefined === null          // return false
+'abc' === new String('abc') // return false

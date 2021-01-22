@@ -21,3 +21,52 @@
 
 
 출처: https://backstreet-programmer.tistory.com/112 [글쓰는 개발자]
+
+
+C:\eGovFrameDev-3.8.0-64bit\workspace_kusf\kusf.admin\src\main\webapp\ubi4
+
+
+
+C:\eGovFrameDev-3.8.0-64bit\workspace_kusf\kusf.usis_admin\src\main\webapp\ubi4\work
+
+
+'입학년도:'+::[A]com_sch_year+'학년도'+
+if(length(:[A]com_univ_cd)=0,'',', 학교코드:')+:[A]com_univ_cd+
+if(length(:[A]univ_nm)=0,'',', 대학명:')+:[A]univ_nm
+
+
+
+
+<img src="'/download/downloadFile.do?requestedFile=:file_nm&origin_file_nm=:origin_file_nm&div=edc'">
+
+'/download/downloadFile.do?requestedFile=:file_nm&origin_file_nm=:origin_file_nm&div=edc'
+
+
+'http://localhost:8080/download/downloadFile.do?requestedFile=:file_nm&origin_file_nm=:origin_file_nm&div=edc'
+
+
+http://localhost:8080/download/downloadFile.do?requestedFile=baf0f423-0199-4&origin_file_nm=aaa.png&div=edc
+
+
+http://localhost:8080/download/downloadFile.do?requestedFile=:file_nm&origin_file_nm=:origin_file_nm&div=edc
+
+
+http://localhost:8080/download/downloadFile.do?requestedFile=baf0f423-0199-49a4-9cd4-34528e80152e&origin_file_nm=aaa.png&div=edc
+
+
+'/download/downloadFile.do?requestedFile=' + :file_nm + ' &' + origin_file_nm=:origin_file_nm&div=edc'
+
+'텍스트' + :컬러명
+
+
+
+getValue('컬럼명' , -1)  //이전값
+getValue('컬럼명' , 0)  //현재값  = :컬럼명
+getValue('file_nm' , 1)  //다음값
+
+:컬럼명
+
+'/download/downloadFile.do?requestedFile=:file_nm&origin_file_nm=:origin_file_nm&div=edc'
+
+
+
