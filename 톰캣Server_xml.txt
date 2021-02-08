@@ -1,0 +1,8 @@
+<Connector connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443" URIEncoding="UTF-8" maxPostSize="-1"/>
+
+maxPostSize="-1" : 데이터 용량 제한 풀기
+
+URIEncoding="UTF-8" : 한글설정
+
+maxParameterCount="-1" : 파라미터 제한 풀기
+

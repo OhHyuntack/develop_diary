@@ -1,0 +1,13 @@
+'/download/downloadFile.do?requestedFile=' + :file_nm + ' &' + origin_file_nm=:origin_file_nm&div=edc'
+
+'텍스트' + :컬러명
+
+
+
+getValue('컬럼명' , -1)  //이전값
+getValue('컬럼명' , 0)  //현재값  = :컬럼명
+getValue('file_nm' , 1)  //다음값
+
+:컬럼명
+
+'/download/downloadFile.do?requestedFile=:file_nm&origin_file_nm=:origin_file_nm&div=edc'

@@ -1,0 +1,239 @@
+
+	/***                       메뉴 lv1 생성*/
+	INSERT INTO com_mnu
+	( mnu_id
+	, upper_mnu_id
+	, mnu_nm
+	, sys_se_cd
+	, mnu_level
+	, outpt_ordr
+	, use_at
+	, mnu_at
+	, progrs_schdul_cd
+	, ins_dt
+	, ins_usr_id
+	, ins_ip_mac
+	) VALUES 
+	( 'MID071100'
+	, 'MID071100'
+	, '화면 별 접속현황'
+	, 'STA'
+	, 1
+	, 11480
+	, 'Y'
+	, 'N'
+	, ''
+	, SYSTIMESTAMP
+	, NULL
+	, NULL
+	)
+	
+	/***                       메뉴 lv2 생성*/
+	INSERT INTO com_mnu
+	( mnu_id
+	, upper_mnu_id
+	, mnu_nm
+	, sys_se_cd
+	, mnu_level
+	, outpt_ordr
+	, use_at
+	, mnu_at
+	, progrs_schdul_cd
+	, ins_dt
+	, ins_usr_id
+	, ins_ip_mac
+	) VALUES 
+	( 'MID071101'
+	, 'MID071100'
+	, '화면 별 접속현황'
+	, 'STA'
+	, 2
+	, 11481
+	, 'Y'
+	, 'Y'
+	, ''
+	, SYSTIMESTAMP
+	, NULL
+	, NULL
+	)
+	
+	/kusf/admin/sta/accesslog/movePage.do
+	
+	
+	/***                       메뉴 URL*/
+	INSERT INTO com_mnu_conect_mng
+	( conect_url
+	, mnu_id
+	, conect_ty_cd
+	, ins_dt
+	, ins_usr_id
+	, ins_ip_mac
+	) VALUES 
+	( '	/kusf/admin/sta/accesslog/movePage.do'
+	, 'MID071101'
+	, 'M'
+	, SYSTIMESTAMP
+	, NULL
+	, NULL
+	);
+	
+	/***                       조회 URL*/
+	INSERT INTO com_mnu_conect_mng
+	( conect_url
+	, mnu_id
+	, conect_ty_cd
+	, ins_dt
+	, ins_usr_id
+	, ins_ip_mac
+	) VALUES 
+	( '/kusf/admin/sta/accesslog/selectGridData.do'
+	, 'MID071101'
+	, 'R'
+	, SYSTIMESTAMP
+	, NULL
+	, NULL
+	)
+	
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 			SELECT 
+				tbl.conect_url
+				, tbl.conect_dt
+				, tbl.ins_usr_id
+				, cmcm.mnu_id
+				, cmcm.conect_ty_cd
+				, cm.mnu_nm
+				, cm.sys_se_cd
+				, cm.mnu_at
+			FROM COM_MNU_CONECT_LOG_MNG tbl
+			INNER JOIN COM_MNU_CONECT_MNG cmcm
+				ON tbl.conect_url = cmcm.conect_url
+			INNER JOIN COM_MNU cm 
+				ON cmcm.mnu_id = cm.mnu_id
+			WHERE tbl.connect_dt between 
+			
+ 
+ 
+			SELECT 
+				t1.conect_url
+				, t1.conect_dt
+				, t1.ins_usr_id
+				, cmcm.mnu_id
+				, cmcm.conect_ty_cd
+				, cm.mnu_nm
+				, ccc.cd_nm || ' > ' ||  CASE WHEN cmcm.upper_mnu_id != cmcm.mnu_id THEN (SELECT mnu_nm FROM com_mnu WHERE mnu_id = cmcm.upper_mnu_id) || ' > ' || cmcm.mnu_nm
+                                              ELSE  cmcm.mnu_nm
+                                               END  AS navi_nm
+				, cm.sys_se_cd
+				, cm.mnu_at
+			FROM COM_MNU_CONECT_LOG_MNG t1
+			INNER JOIN COM_MNU_CONECT_MNG cmcm
+				ON t1.conect_url = cmcm.conect_url
+			INNER JOIN COM_MNU cm 
+				ON cmcm.mnu_id = cm.mnu_id
+			INNER JOIN com_cmmn_cd ccc
+               	ON t1.sys_se_cd = ccc.cd
+			WHERE tq.conect_dt between '20210202' AND '20210203'
+ 
+ 
+			SELECT 
+				t1.conect_url
+				, t1.conect_dt
+				, t1.ins_usr_id
+				, (select login_id from com_usr where usr_id = t1.ins_usr_id) as login_id
+				, cmcm.mnu_id
+				, cmcm.conect_ty_cd
+				, cm.mnu_nm
+				, ccc.cd_nm || ' > ' ||  CASE WHEN cm.upper_mnu_id != cm.mnu_id THEN (SELECT mnu_nm FROM com_mnu WHERE mnu_id = cm.upper_mnu_id) || ' > ' || cm.mnu_nm
+                                              ELSE  cm.mnu_nm
+                                               END  AS navi_nm
+				, cm.sys_se_cd
+				, cm.mnu_at
+			FROM COM_MNU_CONECT_LOG_MNG t1
+			INNER JOIN COM_MNU_CONECT_MNG cmcm
+				ON t1.conect_url = cmcm.conect_url
+			INNER JOIN COM_MNU cm 
+				ON cmcm.mnu_id = cm.mnu_id
+			INNER JOIN com_cmmn_cd ccc
+               	ON cm.sys_se_cd = ccc.cd
+			WHERE t1.conect_dt between '20210202' AND '20210203';
+ 
+ 
+ 
+			SELECT 
+				t1.conect_url
+				, t1.conect_dt
+				, t1.ins_usr_id
+				, (select login_id from com_usr where usr_id = t1.ins_usr_id) as login_id
+				, cmcm.mnu_id
+				, cmcm.conect_ty_cd
+				, (	SELECT cd_nm FROM com_cmmn_cd WHERE cd_grp = 'USIS05' AND cd = cmcm.conect_ty_cd) AS conect_ty_nm
+				, cm.mnu_nm
+				, ccc.cd_nm || ' > ' ||  CASE WHEN cm.upper_mnu_id != cm.mnu_id THEN (SELECT mnu_nm FROM com_mnu WHERE mnu_id = cm.upper_mnu_id) || ' > ' || cm.mnu_nm
+                                              ELSE  cm.mnu_nm
+                                               END  AS navi_nm
+				, cm.sys_se_cd
+				, cm.mnu_at
+			FROM COM_MNU_CONECT_LOG_MNG t1
+			INNER JOIN COM_MNU_CONECT_MNG cmcm
+				ON t1.conect_url = cmcm.conect_url
+			INNER JOIN COM_MNU cm 
+				ON cmcm.mnu_id = cm.mnu_id
+			INNER JOIN com_cmmn_cd ccc
+               	ON cm.sys_se_cd = ccc.cd
+			WHERE t1.conect_dt between '20210202' AND '20210203';;
+ 
+ 
+ 
+ 
+ 
+ 
+ 	private String conect_seq,
+	private String conect_url,
+	private String useragent,
+	private String conect_dt,
+	private String mnu_id,
+	private String upper_mnu_id,
+	private String mnu_nm,
+	private String sys_se_cd,
+	private String mnu_level,
+	private String outpt_ordr,
+	private String use_at,
+	private String mnu_at,
+	private String progrs_schdul_cd,
+	private String upd_dt,
+	private String upd_usr_id,
+	private String upd_ip_mac,
+	private String ins_dt,
+	private String ins_usr_id,
+	private String ins_ip_mac
+	
+	
+	
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
